@@ -4,9 +4,9 @@
     "slug": "AsidesAppNativeFE",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./asides_app/assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./asides_app/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
