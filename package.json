@@ -18,7 +18,11 @@
     "react-router-native": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "@babel/plugin-transform-react-jsx": "^7.12.1",
+    "metro": "^0.63.0",
+    "metro-core": "^0.63.0",
+    "webpack": "^5.3.2"
   },
   "private": true
 }
