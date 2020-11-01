@@ -15,7 +15,9 @@ export default function LiteAddPlayer({addPlayer}) {
                 style={styles.textbox}
                 onChangeText={onChange}
             />
-            <TouchableOpacity style={styles.btn} onPress={() => addPlayer(inputValue)}>
+            <TouchableOpacity style={styles.btn} onPress={() => {
+                addPlayer(inputValue)
+                }}>
                 <Text style={styles.btnText}>
                     <AntDesign name="pluscircleo" size={18} color="green"/> 
                     Add Player       

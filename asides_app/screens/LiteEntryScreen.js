@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Alert, Button, FlatList, TouchableOpacity} from 'react-native';
 import LiteAddPlayer from '../components/LiteAddPlayer';
 import LitePlayerListItem from '../components/LitePlayerListItem';
+import axios from 'axios';
 
 export default function LiteEntryScreen({ history }) {
 
@@ -9,7 +10,11 @@ export default function LiteEntryScreen({ history }) {
             "Iain",
             "Rich",
             "Carl",
-            "Mike"
+            "Mike",
+            "Matt",
+            "Olivia",
+            "Archie",
+            "Eevee"
         ]);
 
     const addPlayer = (playerToAdd) => {
@@ -29,6 +34,13 @@ export default function LiteEntryScreen({ history }) {
 
     const onSubmit = () => {
         console.log(players);
+        if (players.length < 8 || players.length > 16) {
+            Alert.alert("Error", "Please add 8-16 players for a decent game.");
+        } else {
+            axios.post('http://localhost:8080/litegroup', {"players": players}).then(response => {
+                console.log(response.data);
+            }).catch(error => console.log(error));
+        }
     }
 
     return (
@@ -39,7 +51,8 @@ export default function LiteEntryScreen({ history }) {
                 <LitePlayerListItem player={item} removePlayer={removePlayer}/>
             )}>
             </FlatList>
-            <TouchableOpacity style={styles.btn} onPress={() => onSubmit()}>
+            <TouchableOpacity style={styles.btn}
+                onPress={() => onSubmit()}>
                 <Text style={styles.btnText}>Submit</Text>
             </TouchableOpacity>
             <Button title="Go home" onPress={() => history.push("/")}></Button>
