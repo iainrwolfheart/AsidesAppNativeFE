@@ -47,7 +47,9 @@ export default function LiteEntryScreen({ navigation }) {
             Alert.alert("Error", "Please add 8-16 players for a decent game.");
         } else {
             axios.post('http://localhost:8080/litegroup', {"players": players}).then(response => {
-                setReturnedTeams(response.data)
+                setReturnedTeams(response.data);
+                navigation.navigate("LiteShowTeams", {
+                    teams: response.data});
             }).catch(error => console.log(error));
         }
     }
@@ -63,7 +65,7 @@ export default function LiteEntryScreen({ navigation }) {
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
                     onSubmit();
-                    navigation.navigate("LiteShowTeams");
+                    // navigation.navigate("LiteShowTeams"), {returnedTeams};
                     }}>
                 <Text style={styles.btnText}>Submit</Text>
             </TouchableOpacity>
