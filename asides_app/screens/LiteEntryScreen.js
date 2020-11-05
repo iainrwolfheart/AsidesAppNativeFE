@@ -46,11 +46,8 @@ export default function LiteEntryScreen({ navigation }) {
         if (players.length < 8 || players.length > 16) {
             Alert.alert("Error", "Please add 8-16 players for a decent game.");
         } else {
-            axios.post('http://localhost:8080/litegroup', {"players": players}).then(response => {
-                setReturnedTeams(response.data);
-                navigation.navigate("LiteShowTeams", {
-                    teams: response.data});
-            }).catch(error => console.log(error));
+            navigation.navigate("LiteShowTeams", {
+                players: players});
         }
     }
 
@@ -63,10 +60,7 @@ export default function LiteEntryScreen({ navigation }) {
             )}>
             </FlatList>
             <TouchableOpacity style={styles.btn}
-                onPress={() => {
-                    onSubmit();
-                    // navigation.navigate("LiteShowTeams"), {returnedTeams};
-                    }}>
+                onPress={() => onSubmit()}>
                 <Text style={styles.btnText}>Submit</Text>
             </TouchableOpacity>
             <Button title="Go home" onPress={() => navigation.navigate("WelcomeScreen")}></Button>
