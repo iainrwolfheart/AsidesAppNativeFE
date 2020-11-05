@@ -1,24 +1,29 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { NativeRouter, Switch, Route } from 'react-router-native';
 import WelcomeScreen from './asides_app/screens/WelcomeScreen';
 import LiteEntryScreen from './asides_app/screens/LiteEntryScreen';
+import LiteShowTeams from './asides_app/components/LiteShowTeams';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 
 export default function App() {
+  const Stack = createStackNavigator();
   return (
-    <NativeRouter>
       <View style={styles.container}>
-        <Switch>
-          <Route exact path="/" component={WelcomeScreen} />
-          {/* <Route exact path="/login" component={LoginScreen} />
-          <Route exact path="/signup" component={SignupScreen} /> */}
-          <Route exact path="/liteentry" component={LiteEntryScreen} />
-
-        </Switch>
-      </View>
-    </NativeRouter>
-  );
+        <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
+              {/* <Stack.Screen name="Login" component={LoginScreen} />
+              <Stack.Screen name="/Signup" component={SignupScreen} /> */}
+              <Stack.Screen name="LiteEntry" component={LiteEntryScreen} />
+              <Stack.Screen name="LiteShowTeams" component={LiteShowTeams} />
+            </Stack.Navigator>
+        </NavigationContainer>
+      </View> 
+  )
 }
 
 const styles = StyleSheet.create({

@@ -2,9 +2,17 @@ import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Alert, Button, FlatList, TouchableOpacity} from 'react-native';
 import LiteAddPlayer from '../components/LiteAddPlayer';
 import LitePlayerListItem from '../components/LitePlayerListItem';
+import LiteShowTeams from '../components/LiteShowTeams';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
 
-export default function LiteEntryScreen({ history }) {
+//Convert to class component.
+//Convert ShowTeams to class component
+//Move axios post to ShowTeams componentDidMount
+//Update onSubmit in this component to call ShowTeams page and pass props
+
+export default function LiteEntryScreen({ navigation }) {
 
     const [players, setPlayers] = useState([
             "Iain",
@@ -16,6 +24,8 @@ export default function LiteEntryScreen({ history }) {
             "Archie",
             "Eevee"
         ]);
+
+    const [returnedTeams, setReturnedTeams] = useState(null);
 
     const addPlayer = (playerToAdd) => {
         if (playerToAdd != "") {
@@ -33,12 +43,11 @@ export default function LiteEntryScreen({ history }) {
     }
 
     const onSubmit = () => {
-        console.log(players);
         if (players.length < 8 || players.length > 16) {
             Alert.alert("Error", "Please add 8-16 players for a decent game.");
         } else {
             axios.post('http://localhost:8080/litegroup', {"players": players}).then(response => {
-                console.log(response.data);
+                setReturnedTeams(response.data)
             }).catch(error => console.log(error));
         }
     }
@@ -52,10 +61,13 @@ export default function LiteEntryScreen({ history }) {
             )}>
             </FlatList>
             <TouchableOpacity style={styles.btn}
-                onPress={() => onSubmit()}>
+                onPress={() => {
+                    onSubmit();
+                    navigation.navigate("LiteShowTeams");
+                    }}>
                 <Text style={styles.btnText}>Submit</Text>
             </TouchableOpacity>
-            <Button title="Go home" onPress={() => history.push("/")}></Button>
+            <Button title="Go home" onPress={() => navigation.navigate("WelcomeScreen")}></Button>
         </SafeAreaView>
     )
 }
