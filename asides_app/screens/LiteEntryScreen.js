@@ -25,8 +25,6 @@ export default function LiteEntryScreen({ navigation }) {
             "Eevee"
         ]);
 
-    const [returnedTeams, setReturnedTeams] = useState(null);
-
     const addPlayer = (playerToAdd) => {
         if (playerToAdd != "") {
             setPlayers(previousPlayers => {
