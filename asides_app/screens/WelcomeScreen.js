@@ -8,7 +8,7 @@ export default function WelcomeScreen({ navigation }) {
         <SafeAreaView>
             <Text >Welcome to Asides!</Text>
             <Button title="Login" /*onPress={() => navigation.navigate("Login")}*//>
-            <Button title="Sign up" /*onPress={() => navigation.navigate("Signup")}*//>
+            <Button title="Sign up" onPress={() => navigation.navigate("Signup")}/>
             <Button title="Use LITE"onPress={() => navigation.navigate("LiteEntry") }/>
         </SafeAreaView>
     )

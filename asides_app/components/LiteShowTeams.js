@@ -15,7 +15,7 @@ export default function LiteShowTeams ({route, navigation}) {
             const returnedData = await axios.post('http://localhost:8080/litegroup', {"players": players.players})
             .catch(error => console.log(error));
             setReturnedTeams(returnedData.data);   
-            //Handle case where no data returned?
+            //Handle case where no data returned?ç
         }
       
         fetchData();
@@ -27,9 +27,9 @@ export default function LiteShowTeams ({route, navigation}) {
                 <FlatList 
                     data={returnedTeams.blueTeam} 
                     extraData={returnedTeams} 
-                    renderItem={({item}) => (
+                    renderItem={({item, index}) => (
                         <View>
-                            <Text>{item.surname}</Text>
+                            <Text>{index + 1}. {item.surname}</Text>
                         </View>
                     )}>
                 </FlatList>
@@ -37,9 +37,9 @@ export default function LiteShowTeams ({route, navigation}) {
                 <FlatList 
                     data={returnedTeams.redTeam} 
                     extraData={returnedTeams} 
-                    renderItem={({item}) => (
+                    renderItem={({item, index}) => (
                         <View>
-                            <Text>{item.surname}</Text>
+                            <Text>{index + 1}. {item.surname}</Text>
                         </View>
                     )}>
                 </FlatList>
