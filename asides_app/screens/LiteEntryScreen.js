@@ -44,8 +44,7 @@ export default function LiteEntryScreen({ navigation }) {
         if (players.length < 8 || players.length > 16) {
             Alert.alert("Error", "Please add 8-16 players for a decent game.");
         } else {
-            navigation.navigate("LiteShowTeams", {
-                players: players});
+            navigation.navigate("LiteShowTeams", {players: players});
         }
     }
 

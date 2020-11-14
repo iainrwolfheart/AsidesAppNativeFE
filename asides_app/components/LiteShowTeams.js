@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, Button, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, FlatList, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 export default function LiteShowTeams ({route, navigation}) {
@@ -29,7 +29,7 @@ export default function LiteShowTeams ({route, navigation}) {
                     extraData={returnedTeams} 
                     renderItem={({item, index}) => (
                         <View>
-                            <Text>{index + 1}. {item.surname}</Text>
+                            <Text>{index + 1}. {item.username}</Text>
                         </View>
                     )}>
                 </FlatList>
@@ -39,10 +39,15 @@ export default function LiteShowTeams ({route, navigation}) {
                     extraData={returnedTeams} 
                     renderItem={({item, index}) => (
                         <View>
-                            <Text>{index + 1}. {item.surname}</Text>
+                            <Text>{index + 1}. {item.username}</Text>
                         </View>
                     )}>
                 </FlatList>
+                <TouchableOpacity style={styles.btn}
+                // onPress={() => fetchData()}
+                >
+                <Text style={styles.btnText}>Mix it up!</Text>
+            </TouchableOpacity>
             </View>
         )
 }
@@ -51,6 +56,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 60,
-    }
+    },
+    btn: {
+        backgroundColor: 'white',
+        padding: 9,
+        margin: 5
+    },
+    btnText: {
+        textAlign: 'center',
+        fontSize: 18,
+        color: 'green'
+    },
 })
         
