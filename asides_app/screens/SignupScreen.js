@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
 
 export default function SignupScreen() {
@@ -9,15 +9,28 @@ export default function SignupScreen() {
     const [password, setPassword] = useState("");
 
     const submitRegistration = () => {
-        validateName(name)
-        validateEmail(email);
-        validatePassword(password);
+        // validateName(name);
+        if (!validateEmail(email)) {
+            Alert.alert("Error", "Email error.");
+        } else if (!validatePassword(password)) {
+            Alert.alert("Error", "Password error.");
+        } else {
+            const signupPostData = {
+                username: name,
+                email: email,
+                password: password
+            };
+            axios.post(`http://localhost:8080/signup`, signupPostData).then(
+                response => {console.log(response.data)}
+            ).catch(
+                error => console.log(error)
+            );
+        }
     }
 
-    const validateName = () => {
-        // API call to check !used
-        // check character count
-    }
+    // const validateName = (name) => {
+    //     // API call to check !used
+    // }
 
     const validateEmail = (email) => {
         let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -38,6 +51,7 @@ export default function SignupScreen() {
                 <TextInput 
                 style={styles.textbox}
                 placeholder="myusernamerox"
+                maxLength={20}
                 onChangeText={(value) => {
                     setName(value);
                     }
