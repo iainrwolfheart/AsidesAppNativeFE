@@ -4,33 +4,32 @@ import axios from 'axios';
 
 export default function SignupScreen() {
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [signupData, setSignUpData] = useState({
+        name: "",
+        email: "",
+        password: ""
+    });
 
     const submitRegistration = () => {
-        // validateName(name);
-        if (!validateEmail(email)) {
+        if (!validateName(signupData.name)) {
+            Alert.alert("Error", "Name cannot be blank.")
+        } else if (!validateEmail(signupData.email)) {
             Alert.alert("Error", "Email error.");
-        } else if (!validatePassword(password)) {
+        } else if (!validatePassword(signupData.password)) {
             Alert.alert("Error", "Password error.");
         } else {
-            const signupPostData = {
-                username: name,
-                email: email,
-                password: password
-            };
-            axios.post(`http://localhost:8080/signup`, signupPostData).then(
-                response => {console.log(response.data)}
+            axios.post(`http://localhost:8080/signup`, signupData).then(
+                response => {console.log("Status: " + response.status + ". Data: " + response.data)}
             ).catch(
                 error => console.log(error)
             );
         }
     }
 
-    // const validateName = (name) => {
-    //     // API call to check !used
-    // }
+    const validateName = (name) => {
+        return String(name).length > 2;
+        // API call to check !used
+    }
 
     const validateEmail = (email) => {
         let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -53,7 +52,7 @@ export default function SignupScreen() {
                 placeholder="myusernamerox"
                 maxLength={20}
                 onChangeText={(value) => {
-                    setName(value);
+                    setSignUpData({...signupData, name: value})
                     }
                 }
                 />
@@ -64,7 +63,8 @@ export default function SignupScreen() {
                 style={styles.textbox}
                 placeholder="email@email.com.uk"
                 onChangeText={(value) => {
-                    setEmail(value);
+                    setSignUpData({...signupData, email: value})
+
                     }
                 }/>
             </View>
@@ -75,7 +75,8 @@ export default function SignupScreen() {
                 secureTextEntry={true}
                 placeholder="53cureP@55w0rd?"
                 onChangeText={(value) => {
-                    setPassword(value);
+                    setSignUpData({...signupData, password: value})
+
                     }
                 }/>
             </View>
