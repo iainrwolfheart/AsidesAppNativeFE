@@ -12,7 +12,7 @@ export default function SignupScreen() {
 
     const submitRegistration = () => {
         if (!validateName(signupData.name)) {
-            Alert.alert("Error", "Name cannot be blank.")
+            Alert.alert("Error", "Name error.")
         } else if (!validateEmail(signupData.email)) {
             Alert.alert("Error", "Email error.");
         } else if (!validatePassword(signupData.password)) {
@@ -48,41 +48,39 @@ export default function SignupScreen() {
             <View style={styles.entryView}>        
                 <Text style={styles.text}>Name</Text>
                 <TextInput 
-                style={styles.textbox}
-                placeholder="myusernamerox"
-                maxLength={20}
-                onChangeText={(value) => {
-                    setSignUpData({...signupData, name: value})
-                    }
-                }
+                    style={styles.textbox}
+                    placeholder="myusernamerox"
+                    maxLength={20}
+                    onChangeText={(value) => {
+                        setSignUpData({...signupData, name: value})
+                    }}
                 />
             </View>
             <View style={styles.entryView}>        
                 <Text style={styles.text}>Email</Text>
                 <TextInput 
-                style={styles.textbox}
-                placeholder="email@email.com.uk"
-                onChangeText={(value) => {
-                    setSignUpData({...signupData, email: value})
-
-                    }
-                }/>
+                    style={styles.textbox}
+                    placeholder="email@email.com.uk"
+                    onChangeText={(value) => {
+                        setSignUpData({...signupData, email: value})
+                    }}
+                />
             </View>
-               <View style={styles.entryView}>        
+            <View style={styles.entryView}>        
                 <Text style={styles.text}>Password</Text>
                 <TextInput 
-                style={styles.textbox}
-                secureTextEntry={true}
-                placeholder="53cureP@55w0rd?"
-                onChangeText={(value) => {
-                    setSignUpData({...signupData, password: value})
-
-                    }
-                }/>
+                    style={styles.textbox}
+                    secureTextEntry={true}
+                    placeholder="53cureP@55w0rd?"
+                    onChangeText={(value) => {
+                        setSignUpData({...signupData, password: value})
+                    }}
+                />
             </View>
-            <TouchableOpacity style={styles.btn}
-            onPress={() => submitRegistration()}>
-                <Text style={styles.btnText}>Sign up</Text>
+            <TouchableOpacity 
+                style={styles.btn}
+                onPress={() => submitRegistration()}>
+                    <Text style={styles.btnText}>Sign up</Text>
             </TouchableOpacity>
         </SafeAreaView>
     )
