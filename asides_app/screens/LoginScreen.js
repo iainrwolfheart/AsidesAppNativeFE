@@ -14,8 +14,12 @@ export default function LoginScreen() {
             Alert.alert("Error", "Username error!");
         } else if (!validatePassword(loginData.password)) {
             Alert.alert("Error", "Password error!");
+        } else {
+            axios.post(`http://localhost:8080/login`, loginData).then(response => {
+                console.log(response.data);
+            }).catch(
+                error => console.log(error));
         }
-        // else axios call
     }
 
     const validateUsername = (name) => {
