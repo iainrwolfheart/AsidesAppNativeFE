@@ -7,6 +7,7 @@ import LiteEntryScreen from './asides_app/screens/LiteEntryScreen';
 import LiteShowTeamsScreen from './asides_app/screens/LiteShowTeamsScreen';
 import SignupScreen from './asides_app/screens/SignupScreen';
 import LoginScreen from './asides_app/screens/LoginScreen';
+import HomeScreen from './asides_app/screens/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -22,6 +23,7 @@ export default function App() {
               <Stack.Screen name="Signup" component={SignupScreen} />
               <Stack.Screen name="LiteEntry" component={LiteEntryScreen} />
               <Stack.Screen name="LiteShowTeams" component={LiteShowTeamsScreen} />
+              <Stack.Screen name="Home" component={HomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>
       </View> 

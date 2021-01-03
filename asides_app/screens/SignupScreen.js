@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function SignupScreen() {
+export default function SignupScreen({navigation}) {
 
     const [signupData, setSignUpData] = useState({
         name: "",
@@ -19,7 +21,19 @@ export default function SignupScreen() {
             Alert.alert("Error", "Password error.");
         } else {
             axios.post(`http://localhost:8080/signup`, signupData).then(
-                response => {console.log("Status: " + response.status + ". Data: " + response.data)}
+                response => {
+                    console.log(response);
+                    if(response.status === 200) {
+                        navigation.navigate("Home", {auth: response.data})
+                    } else if (response.status === 422) {
+                        // UNPROCESSABLE ENTITY STATUS
+                        // Email already in use message
+                        // Clear form
+                        // Show login link / hint to try another email
+                    } else {
+                        // Unforeseen possibilities go here
+                    }
+                }
             ).catch(
                 error => console.log(error)
             );
@@ -46,7 +60,7 @@ export default function SignupScreen() {
         <SafeAreaView>
             <Text>Signup</Text>
             <View style={styles.entryView}>        
-                <Text style={styles.text}>Name</Text>
+                <Text style={styles.text}>Username</Text>
                 <TextInput 
                     style={styles.textbox}
                     placeholder="myusernamerox"

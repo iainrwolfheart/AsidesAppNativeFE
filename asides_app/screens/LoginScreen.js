@@ -16,7 +16,19 @@ export default function LoginScreen() {
             Alert.alert("Error", "Password error!");
         } else {
             axios.post(`http://localhost:8080/login`, loginData).then(response => {
-                console.log(response.data);
+                if (response.status === 200) {
+                    navigation.navigator("Home", {auth: response.data});
+                } else if (response.status === 404) {
+                    // NOT FOUND ERROR
+                    // Username not found IN DB
+                    // Clear form
+                    // Prompt to try another username or email
+                } else if (response.status === 401) {
+                    // UNAUTHORISED ERROR
+                    // Incorrect password entry
+                    // clear password field only
+                    // Prompt to try again
+                }
             }).catch(
                 error => console.log(error));
         }
