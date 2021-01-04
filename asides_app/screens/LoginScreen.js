@@ -17,6 +17,7 @@ export default function LoginScreen() {
         } else {
             axios.post(`http://localhost:8080/login`, loginData).then(response => {
                 if (response.status === 200) {
+                    saveUserToken(response.data);
                     navigation.navigator("Home", {auth: response.data});
                 } else if (response.status === 404) {
                     // NOT FOUND ERROR
@@ -43,7 +44,15 @@ export default function LoginScreen() {
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return passwordRegex.test(String(password));
     }
-        
+        // Assumes String saved
+        const saveUserToken = async(value) => {
+            try {
+                await AsyncStorage.setItem("userToken", value);
+            } catch (error) {
+                console.log('Token Save Error: ' + error.message);
+            }
+        }
+
     return (
         <SafeAreaView>
             <Text>Hi from Login</Text>
