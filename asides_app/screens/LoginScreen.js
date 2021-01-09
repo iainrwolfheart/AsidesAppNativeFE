@@ -1,8 +1,11 @@
 import React, {useState} from 'react'
 import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setUserToken } from '../services/AuthService';
 
-export default function LoginScreen() {
+
+export default function LoginScreen({navigation}) {
 
     const [loginData, setloginData] = useState({
         username: "",
@@ -17,8 +20,8 @@ export default function LoginScreen() {
         } else {
             axios.post(`http://localhost:8080/login`, loginData).then(response => {
                 if (response.status === 200) {
-                    saveUserToken(response.data);
-                    navigation.navigator("Home", {auth: response.data});
+                    setUserToken(response.data);
+                    navigation.navigate("Home", {auth: response.data});
                 } else if (response.status === 404) {
                     // NOT FOUND ERROR
                     // Username not found IN DB
@@ -44,14 +47,6 @@ export default function LoginScreen() {
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return passwordRegex.test(String(password));
     }
-        // Assumes String saved
-        const saveUserToken = async(value) => {
-            try {
-                await AsyncStorage.setItem("userToken", value);
-            } catch (error) {
-                console.log('Token Save Error: ' + error.message);
-            }
-        }
 
     return (
         <SafeAreaView>

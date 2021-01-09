@@ -2,10 +2,6 @@ import React, {useState} from 'react';
 import { SafeAreaView, StyleSheet, Text, Alert, Button, FlatList, TouchableOpacity} from 'react-native';
 import LiteAddPlayer from '../components/LiteAddPlayer';
 import LitePlayerListItem from '../components/LitePlayerListItem';
-import LiteShowTeamsScreen from './LiteShowTeamsScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import axios from 'axios';
 
 //Convert to class component.
 //Convert ShowTeams to class component

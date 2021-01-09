@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setUserToken } from '../services/AuthService';
+
 
 export default function SignupScreen({navigation}) {
 
@@ -24,7 +23,7 @@ export default function SignupScreen({navigation}) {
             axios.post(`http://localhost:8080/signup`, signupData).then(
                 response => {
                     if(response.status === 200) {
-                        saveUserToken(response.data)
+                        setUserToken(response.data);
                         navigation.navigate("Home", {auth: response.data})
                     } else if (response.status === 422) {
                         // UNPROCESSABLE ENTITY STATUS
@@ -55,14 +54,6 @@ export default function SignupScreen({navigation}) {
     const validatePassword = (password) => {
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
         return passwordRegex.test(String(password));
-    }
-    // Assumes String saved
-    const saveUserToken = async(value) => {
-        try {
-            await AsyncStorage.setItem("userToken", value);
-        } catch (error) {
-            console.log('Token Save Error: ' + error.message);
-        }
     }
 
     return (
