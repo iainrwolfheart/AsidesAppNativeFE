@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { setUserToken } from '../services/AuthService';
+
 
 export default function SignupScreen({navigation}) {
 
@@ -11,7 +11,7 @@ export default function SignupScreen({navigation}) {
         email: "",
         password: ""
     });
-
+    
     const submitRegistration = () => {
         if (!validateName(signupData.name)) {
             Alert.alert("Error", "Name error.")
@@ -22,20 +22,22 @@ export default function SignupScreen({navigation}) {
         } else {
             axios.post(`http://localhost:8080/signup`, signupData).then(
                 response => {
-                    console.log(response);
                     if(response.status === 200) {
-                        navigation.navigate("Home", {auth: response.data})
-                    } else if (response.status === 422) {
-                        // UNPROCESSABLE ENTITY STATUS
-                        // Email already in use message
-                        // Clear form
-                        // Show login link / hint to try another email
-                    } else {
-                        // Unforeseen possibilities go here
+                        setUserToken(response.data);
+                        navigation.navigate("Home");
                     }
+                    // ELSE?
                 }
             ).catch(
-                error => console.log(error)
+                error => {
+                    console.log("Signup catch block: " + error.response.status)
+                    if (error.response.status === 422) {
+                        // UNPROCESSABLE ERROR (EMAIL ALREADY IN USE) 
+                        Alert.alert("Error", "Email already in use!");
+                        // Clear form?
+                    } 
+                    // ELSE?
+                }
             );
         }
     }
