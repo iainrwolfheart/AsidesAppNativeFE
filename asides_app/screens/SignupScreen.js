@@ -24,18 +24,20 @@ export default function SignupScreen({navigation}) {
                 response => {
                     if(response.status === 200) {
                         setUserToken(response.data);
-                        navigation.navigate("Home", {auth: response.data})
-                    } else if (response.status === 422) {
-                        // UNPROCESSABLE ENTITY STATUS
-                        // Email already in use message
-                        // Clear form
-                        // Show login link / hint to try another email
-                    } else {
-                        // Unforeseen possibilities go here
+                        navigation.navigate("Home");
                     }
+                    // ELSE?
                 }
             ).catch(
-                error => console.log(error)
+                error => {
+                    console.log("Signup catch block: " + error.response.status)
+                    if (error.response.status === 422) {
+                        // UNPROCESSABLE ERROR (EMAIL ALREADY IN USE) 
+                        Alert.alert("Error", "Email already in use!");
+                        // Clear form?
+                    } 
+                    // ELSE?
+                }
             );
         }
     }

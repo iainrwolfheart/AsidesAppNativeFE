@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { SafeAreaView, View, TextInput, Text, StyleSheet, Button, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setUserToken } from '../services/AuthService';
 
 
@@ -14,27 +13,33 @@ export default function LoginScreen({navigation}) {
 
     const submitLogin = () => {
         if (!validateUsername(loginData.username)) {
-            Alert.alert("Error", "Username error!");
+            Alert.alert("Error", "Username validation error!");
         } else if (!validatePassword(loginData.password)) {
-            Alert.alert("Error", "Password error!");
+            Alert.alert("Error", "Password validation error!");
         } else {
-            axios.post(`http://localhost:8080/login`, loginData).then(response => {
-                if (response.status === 200) {
-                    setUserToken(response.data);
-                    navigation.navigate("Home", {auth: response.data});
-                } else if (response.status === 404) {
-                    // NOT FOUND ERROR
-                    // Username not found IN DB
-                    // Clear form
-                    // Prompt to try another username or email
-                } else if (response.status === 401) {
-                    // UNAUTHORISED ERROR
-                    // Incorrect password entry
-                    // clear password field only
-                    // Prompt to try again
+            axios.post(`http://localhost:8080/login`, loginData).then(
+                response => {
+                    if(response.status === 200) {
+                        setUserToken(response.data);
+                        navigation.navigate("Home");
+                    }
+                    // ELSE?
                 }
-            }).catch(
-                error => console.log(error));
+            ).catch(
+                error => {
+                    console.log("Login catch block: " + error.response.status)
+                    if (error.response.status === 404) {
+                        // NOT FOUND ERROR
+                        Alert.alert("Error", "Username DB error!");
+                        // Clear form?
+                    } else if (error.response.status === 401) {
+                        // UNAUTHORISED ERROR
+                        Alert.alert("Error", "Password DB error!");
+                        // clear password field only?
+                    }
+                    // ELSE?
+                }
+            );
         }
     }
 
