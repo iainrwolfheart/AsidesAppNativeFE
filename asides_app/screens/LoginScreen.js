@@ -27,17 +27,21 @@ export default function LoginScreen({navigation}) {
                 }
             ).catch(
                 error => {
-                    console.log("Login catch block: " + error.response.status)
-                    if (error.response.status === 404) {
-                        // NOT FOUND ERROR
-                        Alert.alert("Error", "Username DB error!");
-                        // Clear form?
-                    } else if (error.response.status === 401) {
-                        // UNAUTHORISED ERROR
-                        Alert.alert("Error", "Password DB error!");
-                        // clear password field only?
+                    if (error.response) {
+                        if (error.response.status === 404) {
+                            // NOT FOUND ERROR
+                            Alert.alert("Error", "Username DB error!");
+                            // Clear form?
+                        } else if (error.response.status === 401) {
+                            // UNAUTHORISED ERROR
+                            Alert.alert("Error", "Password DB error!");
+                            // clear password field only?
+                        }
+                    } else if (error.request) {
+                        Alert.alert("Error", "Unable to get a server response. Please call again later.");
+                    } else {
+                        Alert.alert("Error", "Something went wrong, sorreh!");
                     }
-                    // ELSE?
                 }
             );
         }

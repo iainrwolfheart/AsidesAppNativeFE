@@ -30,13 +30,20 @@ export default function SignupScreen({navigation}) {
                 }
             ).catch(
                 error => {
-                    console.log("Signup catch block: " + error.response.status)
-                    if (error.response.status === 422) {
-                        // UNPROCESSABLE ERROR (EMAIL ALREADY IN USE) 
-                        Alert.alert("Error", "Email already in use!");
-                        // Clear form?
-                    } 
-                    // ELSE?
+                    if (error.response) {
+                        if (error.response.status === 422) {
+                            // UNPROCESSABLE ERROR (EMAIL ALREADY IN USE) 
+                            Alert.alert("Error", "Email already in use!");
+                            // Clear form?
+                        } else {
+                            Alert.alert("Error", "Oops, I don't recognise this server response.");
+                        }
+                    }
+                    else if (error.request) {
+                        Alert.alert("Error", "Unable to get a server response. Please call again later.");
+                    } else {
+                        Alert.alert("Error", "Something went wrong, sorreh!");
+                    }
                 }
             );
         }
